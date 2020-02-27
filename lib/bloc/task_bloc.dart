@@ -5,13 +5,13 @@ import 'package:equatable/equatable.dart';
 
 import '../models/todo.dart';
 import '../services/date_time_service.dart';
-import '../todo_list_repository.dart';
+import '../task_list_repository.dart';
 
-part 'todo_event.dart';
-part 'todo_state.dart';
+part 'task_event.dart';
+part 'task_state.dart';
 
 class TaskBloc extends Bloc<TaskEvent, TaskState> {
-  final TodoListRepository taskListRepository;
+  final TaskListRepository taskListRepository;
 
   TaskBloc(this.taskListRepository);
 
@@ -30,7 +30,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
           dateTime: DateTimeServiceProvider.strToDateTime(event.dateTime),
           name: event.name,
           description: event.description);
-      List<Task> updatedTaskList = taskListRepository.addTodoList(newTask);
+      List<Task> updatedTaskList = taskListRepository.addTaskList(newTask);
       print(updatedTaskList.length);
       yield AddedToListState(newTask, updatedTaskList);
     } else if (event is LoadTaskEvent) {
@@ -49,7 +49,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
         // if (updatedTaskList.isEmpty) yield InitialTaskState();
         yield CompletedTaskState(updatedTaskList);
       } on TaskNotFoundError {
-        yield TaskError("Sorry, Unable to Delete Todo");
+        yield TaskError("Sorry, Unable to Delete Task");
       }
     } else {
       yield TaskError("Unkown Event occured !!");

@@ -1,4 +1,4 @@
-part of 'todo_bloc.dart';
+part of 'task_bloc.dart';
 
 abstract class TaskState extends Equatable {
   const TaskState();

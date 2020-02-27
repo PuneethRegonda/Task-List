@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'bloc/todo_bloc.dart';
-import 'todo_list_repository.dart';
+import 'bloc/task_bloc.dart';
+import 'task_list_repository.dart';
 import 'utils/fontStyles.dart';
 import 'view/task_list_view.dart';
 

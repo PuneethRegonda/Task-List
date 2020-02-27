@@ -1,16 +1,16 @@
 import 'models/todo.dart';
 
-abstract class TodoListRepository {
-  List<Task> addTodoList(Task newTask);
+abstract class TaskListRepository {
+  List<Task> addTaskList(Task newTask);
   List<Task> completeTask(int index);
   Task deleteandloadTask(int index);
   List<Task> getTaskList();
 }
 
-class TaskListRepositoryFromMemory implements TodoListRepository {
+class TaskListRepositoryFromMemory implements TaskListRepository {
   List<Task> todoListFromMemory = [];
   @override
-  List<Task> addTodoList(Task newTask) {
+  List<Task> addTaskList(Task newTask) {
     this.todoListFromMemory.add(newTask);
     this
         .todoListFromMemory
