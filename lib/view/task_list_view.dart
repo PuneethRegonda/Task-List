@@ -8,8 +8,6 @@ import '../models/task.dart';
 import '../services/date_time_service.dart';
 import '../utils/fontStyles.dart';
 
-
-
 class MyTaskListApp extends StatefulWidget {
   @override
   _MyTaskListAppState createState() => _MyTaskListAppState();
@@ -29,9 +27,12 @@ class _MyTaskListAppState extends State<MyTaskListApp> {
   }
 
   Widget _buildNoListFound() {
-    return Text(
-      "Assign Tasks and become Productive",
-      style: FontStyles.normalTextStyle,
+    return Flexible(
+      flex: 1,
+      child: Text(
+        "Assign Tasks and become Productive",
+        style: FontStyles.normalTextStyle,
+      ),
     );
   }
 
@@ -184,7 +185,7 @@ class _MyTaskListAppState extends State<MyTaskListApp> {
         resetControllerResources();
         dateTimeTxtcontroller.text =
             DateTimeServiceProvider.dateTimetoStr(state.loadedTask.dateTime);
-        nameTxtController.text = state.loadedTask.name;
+        nameTxtController.text = state.loadedTask.name ?? "";
         descriptiontxtConroller.text = state.loadedTask.description ?? "";
         Scaffold.of(context).showSnackBar(SnackBar(
             duration: const Duration(milliseconds: 500),
@@ -194,26 +195,25 @@ class _MyTaskListAppState extends State<MyTaskListApp> {
         Scaffold.of(context)
             .showSnackBar(SnackBar(content: Text(state.message)));
       } else if (state is CompletedTaskState) {
+        resetControllerResources();
         Scaffold.of(context).showSnackBar(SnackBar(
             duration: const Duration(milliseconds: 500),
             content: Text("Congradulations over Task Completion")));
       } else if (state is AddedToListState) {
+        
         Scaffold.of(context).showSnackBar(SnackBar(
             duration: const Duration(milliseconds: 500),
             content: Text(
                 "${state.task.name} is Successfully added DeadLine ${DateTimeServiceProvider.dateTimetoStr(state.task.dateTime)}")));
       } else {
-        print("Listener for ${state.runtimeType}");
+
       }
     }, child: BlocBuilder<TaskBloc, TaskState>(
       builder: (context, state) {
         if (state is InitialTaskState)
           return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              buildTextForm(context),
-              Center(child: _buildNoListFound())
-            ],
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[buildTextForm(context), _buildNoListFound()],
           );
         else if (state is ProcessingEventState)
           return Column(

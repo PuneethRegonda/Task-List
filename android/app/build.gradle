@@ -24,6 +24,11 @@ if (flutterVersionName == null) {
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+  def keystoreProperties = new Properties()
+        def keystorePropertiesFile = rootProject.file('key.properties')
+        if (keystorePropertiesFile.exists()) {
+            keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+        }
 
 android {
     compileSdkVersion 28
@@ -46,11 +51,32 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+     signingConfigs {
+        release {
+           keyAlias keystoreProperties['keyAlias']
+           keyPassword keystoreProperties['keyPassword']
+           storeFile file(keystoreProperties['storeFile'])
+           storePassword keystoreProperties['storePassword']
+       }
+        // config_release {
+        //     def Properties localProps = new Properties()
+        //     localProps.load(new FileInputStream(file('../local.properties')))
+        //     def Properties keyProps = new Properties()
+        //     assert localProps['keystore.props.file'];
+
+        //     keyProps.load(new FileInputStream(file(localProps['keystore.props.file'])))
+
+        //     storeFile file(keyProps["RELEASE_STORE_FILE"])
+        //     keyAlias keyProps["RELEASE_KEY_ALIAS"]
+        //     storePassword keyProps["RELEASE_STORE_PASSWORD"]
+        //     keyPassword keyProps["RELEASE_KEY_PASSWORD"]
+        // }
+    }  
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
         }
     }
 }
