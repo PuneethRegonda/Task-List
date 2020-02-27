@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
-import '../models/todo.dart';
+import '../models/task.dart';
 import '../services/date_time_service.dart';
 import '../task_list_repository.dart';
 
